@@ -1,7 +1,7 @@
 <%-- 
     Document   : newTenderType
     Created on : Apr 16, 2017, 5:44:58 PM
-    Author     : PLAYBOY
+    Author     : Md. Emran Hossain
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>E-Tender: New Tender Type</title>
         <link href="../css/global.css" rel="stylesheet" type="text/css"/>
         <script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>
     </head>

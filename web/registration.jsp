@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/global.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
-        <title>Registration</title>
+        <title>E-Tender: Registration</title>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">

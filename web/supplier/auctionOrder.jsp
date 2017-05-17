@@ -1,5 +1,5 @@
 <%-- 
-    Document   : orders
+    Document   : auctionOrders
     Created on : Apr 9, 2017, 1:50:20 PM
     Author     : Softcell-4
 --%>
@@ -18,7 +18,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>E-Tender: Auction Orders</title>
         <link href="../css/global.css" rel="stylesheet" type="text/css"/>
         <script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>
     </head>

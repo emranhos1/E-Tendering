@@ -1,5 +1,5 @@
 <%-- 
-    Document   : login
+    Document   : logout
     Created on : Mar 20, 2017, 3:53:59 PM
     Author     : Md. Emran Hossain
 --%>

@@ -1,5 +1,5 @@
 <%-- 
-    Document   : login
+    Document   : index
     Created on : Mar 20, 2017, 3:53:59 PM
     Author     : Md. Emran Hossain
 --%>
@@ -8,7 +8,7 @@
 <!DOCTYPE html> 
 <html lang="en-US">
     <head>
-        <title> E-Tender</title>
+        <title>E-Tender: Index</title>
         <meta charset="utf-8">
         <link href="css/global.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.2.0.min.js" type="text/javascript"></script>

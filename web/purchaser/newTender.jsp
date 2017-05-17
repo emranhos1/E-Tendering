@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newProjects
+    Document   : newTender
     Created on : Apr 16, 2017, 3:53:17 PM
-    Author     : PLAYBOY
+    Author     : Md. Emran Hossain
 --%>
 
 
@@ -12,7 +12,7 @@
 <!DOCTYPE html> 
 <html lang="en-US">
     <head>
-        <title>Task Script V 1.0</title>
+        <title>E-Tender: New Tender</title>
         <meta charset="utf-8">
         <link href="../css/global.css" rel="stylesheet" type="text/css"/>
         <script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>

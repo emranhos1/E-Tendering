@@ -1,7 +1,7 @@
 <%-- 
-    Document   : orders
+    Document   : publishOrders
     Created on : Apr 9, 2017, 1:50:20 PM
-    Author     : Softcell-4
+    Author     : Md. Emran Hossain
 --%>
 
 <%@page import="Dao.SupplierProSpceDao"%>
@@ -18,7 +18,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>E-Tender: Publish Orders</title>
         <link href="../css/global.css" rel="stylesheet" type="text/css"/>
         <script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>
     </head>

@@ -8,7 +8,7 @@
 <!DOCTYPE html> 
 <html lang="en-US">
     <head>
-        <title> E-Tender</title>
+        <title>E-Tender: Login</title>
         <meta charset="utf-8">
         <link href="css/global.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.2.0.min.js" type="text/javascript"></script>
