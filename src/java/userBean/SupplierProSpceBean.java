@@ -49,16 +49,16 @@ public class SupplierProSpceBean extends HttpServlet {
                 if (addSupplierProSpec) {
                     String success = "<p class='alert-info'>Specification Inserted</p>";
                     request.getSession().setAttribute("message", success);
-                    response.sendRedirect("supplier/publishOrders.jsp");
+                    response.sendRedirect("supplier/publishOrder.jsp");
                 } else {
                     String error = "<p class='alert-danger'>Error to Specification Insert</p>";
                     request.getSession().setAttribute("message", error);
-                    response.sendRedirect("supplier/publishOrders.jsp");
+                    response.sendRedirect("supplier/publishOrder.jsp");
                 }
             } else{
                     String error = "<p class='alert-danger'>Specification Already Have Been Inserted Try Another</p>";
                     request.getSession().setAttribute("message", error);
-                    response.sendRedirect("supplier/orders.jsp");
+                    response.sendRedirect("supplier/publishOrder.jsp");
             }
 
         } catch (SQLException ex) {
