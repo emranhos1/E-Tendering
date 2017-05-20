@@ -55,7 +55,7 @@ public class SupplierProSpceBean extends HttpServlet {
                     request.getSession().setAttribute("message", success);
                     response.sendRedirect("supplier/publishOrder.jsp");
                 } else {
-                    String error = "<p class='alert-danger'>Error to Specification Insert</p>";
+                    String error = "<p class='alert-danger'>Error to Insert Specification</p>";
                     request.getSession().setAttribute("message", error);
                     response.sendRedirect("supplier/publishOrder.jsp");
                 }

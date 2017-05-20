@@ -17,31 +17,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuctionBean extends HttpServlet {
-
-    private boolean addAuction;
     private int supplierId;
     private int ppsId;
     private double unitPrice;
     private double price;
+    private String auctionSDate;
+    private String auctionEDate;
     private String setColumnPurchaseProSpec;
     private String WhereClausePurchaseProSpec;
     private boolean updatePurchaserProSpce;
-    private String auctionSDate;
-    private String auctionEDate;
+    private boolean addAuction;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
             supplierId = Integer.parseInt(request.getParameter("sId"));
             ppsId = Integer.parseInt(request.getParameter("ppsId"));
             unitPrice = Double.parseDouble(request.getParameter("uPrice"));
             price = Double.parseDouble(request.getParameter("price"));
             auctionSDate = request.getParameter("AuctionSDate");
             auctionEDate = request.getParameter("AuctionEDate");
-            
             setColumnPurchaseProSpec = "flag = 'Auction', auction_s_date = '"+auctionSDate+"', auction_e_date = '"+auctionEDate+"'";
             WhereClausePurchaseProSpec = " pps_id = " + ppsId;
             updatePurchaserProSpce = PurchaserProSpceDao.updatePurchaseProSpceWithWhereClasuse(setColumnPurchaseProSpec, WhereClausePurchaseProSpec);
@@ -51,16 +48,16 @@ public class AuctionBean extends HttpServlet {
                 if (updatePurchaserProSpce) {
                     String auctionSuccess = "<p class='alert-info'>Project are going to Auction</p>";
                     request.getSession().setAttribute("auctionInfo", auctionSuccess);
-                    response.sendRedirect("purchaser/supplierSpce.jsp");
+                    response.sendRedirect("purchaser/allTender.jsp");
                 } else {
                     String auctionError = "<p class='alert-danger'>Project are not going to Auction</p>";
                     request.getSession().setAttribute("auctionInfo", auctionError);
-                    response.sendRedirect("purchaser/supplierSpce.jsp.jsp");
+                    response.sendRedirect("purchaser/allTender.jsp.jsp");
                 }
             } else {
                 String auctionError = "<p class='alert-danger'>Project are not going to Auction</p>";
                 request.getSession().setAttribute("auctionInfo", auctionError);
-                response.sendRedirect("purchaser/supplierSpce.jsp.jsp");
+                response.sendRedirect("purchaser/allTender.jsp.jsp");
             }
 
         } catch (SQLException ex) {

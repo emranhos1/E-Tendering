@@ -4,6 +4,7 @@
     Author     : Md. Emran Hossain
 --%>
 
+<%@page import="Dao.SupplierProSpceDao"%>
 <%@page import="Dao.PurchaserProSpceDao"%>
 <%@page import="Dao.UserDao"%>
 <%@page import="java.sql.ResultSet"%>
@@ -75,10 +76,12 @@
                 <div class="col-md-12">
                     <center>
                         <div>
-                            <table border="1" class="table table-hover">
-                                <thead>
+                            <h2>All Projects</h2>
+                            <p>${auctionInfo}</p>
+                            <table border="1" class="table table-hover text-center">
+                                <thead class="table table-responsive">
                                     <tr>
-                                        <th>Project Name</th><th>Group Name</th><th>Flag</th><th>Start Date</th><th>End Date</th><th>Auction Start Date</th><th>Auction End Date</th>
+                                        <th>SL</th><th>Project Name</th><th>Flag</th><th>Start Date</th><th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,40 +91,38 @@
                                         PurchaserProSpceDao ppsd = new PurchaserProSpceDao();
                                         ResultSet rs;
                                         int user_Id = Integer.parseInt(session.getAttribute("idUser").toString());
-                                        String neededColumnPurchaseProSpec = "*";
-                                        String WhereClausePurchaseProSpec = " ppsTuser_id = '" + user_Id + "'";
-                                        rs = ppsd.allPurchaseProSpecWithWhereClause(neededColumnPurchaseProSpec, WhereClausePurchaseProSpec);
+                                        String neededColumnSpsPpsProjectUsersCompany = "*";
+                                        String WhereClauseSpsPpsProjectUsersCompany = " ppsTuser_id = '" + user_Id + "' and flag = 'Publish'";
+                                        rs = ppsd.allSpsPpsProjectUsersCompanyWithWhereClause(neededColumnSpsPpsProjectUsersCompany, WhereClauseSpsPpsProjectUsersCompany);
 
                                         rs.last();
-                                        int companyRow = rs.getRow();
-                                        String[] projectName = new String[companyRow];
-                                        String[] groupName = new String[companyRow];
-                                        String[] flag = new String[companyRow];
-                                        String[] startDate = new String[companyRow];
-                                        String[] endDate = new String[companyRow];
-                                        String[] auctionSDate = new String[companyRow];
-                                        String[] auctionEDate = new String[companyRow];
+                                        int dataRow = rs.getRow();
+                                        String[] ppsTppsId = new String[dataRow];
+                                        String[] supplier_id = new String[dataRow];
+                                        String[] projectName = new String[dataRow];
+                                        String[] projectId = new String[dataRow];
+                                        String[] flag = new String[dataRow];
+                                        String[] startDate = new String[dataRow];
+                                        String[] endDate = new String[dataRow];
                                         rs.beforeFirst();
-
-                //                        SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd");
-                                        //                        Date date = dt.parse(date_s);
                                         while (rs.next()) {
+                                            ppsTppsId[i] = rs.getString("pps_id");
+                                            supplier_id[i] = rs.getString("spsTuser_id");
                                             projectName[i] = rs.getString("project_name");
-                                            groupName[i] = rs.getString("group_name");
+                                            projectId[i] = rs.getString("project_id");
                                             flag[i] = rs.getString("flag");
                                             startDate[i] = rs.getString("start_date");
                                             endDate[i] = rs.getString("end_date");
-                                            auctionSDate[i] = rs.getString("auction_s_date");
-                                            auctionEDate[i] = rs.getString("auction_e_date");
                                             i++;
                                         }
-                                        for (i = 0; i < companyRow; i++) {
+                                        for (i = 0; i < dataRow; i++) {
                                     %>
-                                    <tr>
-                                        <td><%=projectName[i]%></td></td><td><%=groupName[i]%></td><td><%=flag[i]%></td><td><%=startDate[i]%></td><td><%=endDate[i]%></td><td><%=auctionSDate[i]%></td><td><%=auctionEDate[i]%></td>
-                                        <%}%>
-                                    </tr>
 
+                                    <tr data-toggle="modal" data-ppsid="<%=ppsTppsId[i]%>" data-sid="<%=supplier_id[i]%>" data-pname="<%=projectName[i]%>" data-pid="<%=projectId[i]%>" data-flag="<%=flag[i]%>" class="open-auction" href="#specDetails" onclick="getProjectSpce(this)">
+                                        <td><%=i + 1%></td><td><%=projectName[i]%></td><td><%=flag[i]%></td><td><%=startDate[i]%></td><td><%=endDate[i]%></td>
+
+                                    </tr>
+                                    <%}%>
                                 </tbody>
                             </table>
                         </div>
@@ -130,6 +131,99 @@
             </div>
         </div>
 
+        <!--Confirm Auction Dialog box-->
+        <div class="modal fade" id="confirmAuction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <center><h4 class="modal-title" id="myModalLabel">Confirm Auction</h4></center>
+                    </div>
+                    <div class="modal-body">
+                        <form action="../AuctionBean" class="form-horizontal" method="post" accept-charset="utf-8">
+                            <div class="form-group">
+                                <label for="pName" class="col-sm-4 control-label">Project Name</label>
+                                <div class="col-sm-8">
+                                    <input  type="text" id="pName" name="pName" class="form-control" value="" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="uPrice" class="col-sm-4 control-label">Unit Price</label>
+                                <div class="col-sm-8">
+                                    <input type="number" id="uPrice" name="uPrice" class="form-control" value="" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="col-sm-4 control-label">Price</label>
+                                <div class="col-sm-8">
+                                    <input type="number" id="price" name="price" class="form-control" value="" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AuctionSDate" class="col-sm-4 control-label">Auction Start Date</label>
+                                <div class="col-sm-8">
+                                    <input type="date" id="AuctionSDate" name="AuctionSDate" class="form-control" value="" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AuctionEDate" class="col-sm-4 control-label">Auction End Date</label>
+                                <div class="col-sm-8">
+                                    <input type="date" id="AuctionEDate" name="AuctionEDate" class="form-control" value="" required/>
+                                </div>
+                            </div>
+                            <input type="text" id="ppsId" name="ppsId" class="form-control" value="" />
+                            <input type="text" id="pId" name="pId" class="form-control" value="" />
+                            <input type="text" id="sId" name="sId" class="form-control" value="" />
+                            <center>
+                                <input id="btn-confirm" type="submit" name="submit" value="Confirm" class="btn btn-success"/>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">Cancel</span>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!--Auction this project dialog box-->
+        <div class="modal fade" id="specDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <center><h4 class="modal-title" id="myModalLabel">Auction This Project ?</h4></center>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal" method="post" accept-charset="utf-8">
+
+                            <input type="text" id="ppsId" name="ppsId" class="form-control" value="" />
+                            <input type="text" id="pId" name="pId" class="form-control" value="" />
+                            <input type="text" id="sId" name="sId" class="form-control" value="" />
+                            <div class="form-group">
+                                <label for="pName" class="col-sm-4 control-label">Project Name</label>
+                                <div class="col-sm-8">
+                                    <input  type="text" id="pName" name="pName" class="form-control" value="" readonly/>
+                                </div>
+                            </div>
+
+                            <div id="all-info-box"></div>
+                            <center>
+                                <input id="btn-confirm" type="button" name="auction" value="Auction" data-toggle="modal" href="#confirmAuction" onclick="auctionDialogHide()" class="btn btn-success"/>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">Cancel</span>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--Footer Content--> 
         <div class="container">
             <hr>
@@ -155,6 +249,48 @@
         </div>
 
         <%}%>
+        <script>
+            $(document).on("click", ".open-auction", function () {
+                var ppsId = $(this).data('ppsid');
+                var projectName = $(this).data('pname');
+                var projectId = $(this).data('pid');
+                var supplierId = $(this).data('sid');
+                var flag = $(this).data('flag');
+                $(".modal-body #ppsId").val(ppsId);
+                $(".modal-body #pName").val(projectName);
+                $(".modal-body #pId").val(projectId);
+                $(".modal-body #sId").val(supplierId);
+                $(".modal-body #flag").val(flag);
+            });
+
+            function getProjectSpce(el) {
+
+                var ppsId = $(el).data('ppsid');
+                var projectId = $(el).data('pid');
+                var supplierId = $(el).data('sId');
+                $.ajax({
+                    type: "POST",
+                    url: "../FindSupplierSpceBean",
+                    data: 'ppsId=' + ppsId + '&pId=' + projectId,
+                    success: function (data) {
+                        $("#all-info-box").show();
+                        $("#all-info-box").html(data);
+                        var btnShow = $("#all-info-box").find("#data-none").data('none');
+                        console.log(btnShow);
+                        if (btnShow == 0) {
+                            $("#all-info-box").parent().find("#btn-confirm").hide();
+                        } else {
+                            $("#all-info-box").parent().find("#btn-confirm").show();
+                        }
+                    }
+                });
+            }
+            
+            function auctionDialogHide(){
+                $(".close").click();
+            }
+        </script>
+
         <script src="../js/bootstrap.min.js" type="text/javascript"></script>
     </body>
 </html>

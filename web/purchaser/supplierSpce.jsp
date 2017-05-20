@@ -91,7 +91,6 @@
                                 <tbody>
                                     <%
                                         int i = 0;
-                                        int sl = 0;
                                         ResultSet rs;
                                         int user_Id = Integer.parseInt(session.getAttribute("idUser").toString());
                                         String neededColumnSupplier = "*";
@@ -222,6 +221,18 @@
                                 <label for="AuctionEDate" class="col-sm-4 control-label">Auction End Date</label>
                                 <div class="col-sm-8">
                                     <input  type="date" id="AuctionEDate" name="AuctionEDate" class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pUPrice" class="col-sm-4 control-label">Give Your's Unit Price</label>
+                                <div class="col-sm-8">
+                                    <input  type="number" id="pUPrice" name="pUPrice" class="form-control" value=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pPrice" class="col-sm-4 control-label">Give Your's Price</label>
+                                <div class="col-sm-8">
+                                    <input  type="number" id="pPrice" name="pPrice" class="form-control" value=""/>
                                 </div>
                             </div>
                             <center>

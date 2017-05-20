@@ -74,4 +74,13 @@ public class PurchaserProSpceDao {
         pstm.executeUpdate();
         return true;
     }
+    
+    public static ResultSet allSpsPpsProjectUsersCompanyWithWhereClause(String neededColumnSpsPpsProjectUsersCompany, String WhereClauseSpsPpsProjectUsersCompany) throws SQLException {
+
+        con = db.myConn();
+        pstm = con.prepareStatement("Select " + neededColumnSpsPpsProjectUsersCompany + " from sps_pps_project_users_company where" + WhereClauseSpsPpsProjectUsersCompany);
+        rs = pstm.executeQuery();
+
+        return rs;
+    }
 }

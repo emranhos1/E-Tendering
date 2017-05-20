@@ -60,6 +60,10 @@
         <servlet-name>UpdateSupplierProSpceBean</servlet-name>
         <servlet-class>userBean.UpdateSupplierProSpceBean</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FindSupplierSpceBean</servlet-name>
+        <servlet-class>userBean.FindSupplierSpceBean</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationBean</servlet-name>
         <url-pattern>/RegistrationBean</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>UpdateSupplierProSpceBean</servlet-name>
         <url-pattern>/UpdateSupplierProSpceBean</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FindSupplierSpceBean</servlet-name>
+        <url-pattern>/FindSupplierSpceBean</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
