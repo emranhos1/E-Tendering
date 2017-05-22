@@ -86,7 +86,7 @@
                                         int userId = Integer.parseInt(session.getAttribute("idUser").toString());
 
                                         String neededColumnAllDataSupplierProSpce = "*";
-                                        String whereClauseAllDataSupplierProSpce = " supplier_spec !='null' and user_id = '" + userId + "' and flag = 'Auction'";
+                                        String whereClauseAllDataSupplierProSpce = " supplier_spec !='null' and supplier_id = '" + userId + "' and flag = 'Auction'";
                                         resultset = SupplierProSpceDao.allDataForAllDataSupplierProSpceWithWhereClause(neededColumnAllDataSupplierProSpce, whereClauseAllDataSupplierProSpce);
                                         resultset.last();
                                         int supplierProRow = resultset.getRow();
@@ -209,7 +209,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="bUPrice" class="col-sm-10 control-label">Unit Price</label>
+                                            <label for="bUPrice" class="col-sm-10 control-label">Old Unit Price</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="bUPrice" value="" id="bUPrice" class="form-control" readonly/>
                                             </div>
@@ -218,7 +218,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="bPrice" class="col-sm-10 control-label">Price</label>
+                                            <label for="bPrice" class="col-sm-10 control-label">Old Price</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="bPrice" value="" id="bPrice" class="form-control" readonly/>
                                             </div>
@@ -234,16 +234,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="ppsId" class="col-sm-10 control-label">Purchaser Pro ID</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" id="ppsId" name="ppsId" value="" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
+                                    <input type="hidden" id="ppsId" name="ppsId" value="" readonly/>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -257,7 +248,9 @@
                                     <div class="col-sm-10">
                                         <div class="form-group">
                                             <div class="div-center">
-                                                <input type="reset" name="reset" value="Reset"  class="btn btn-large btn-danger" />
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">Cancel</span>
+                                                </button>
                                                 <input type="submit" name="submit" value="Bit New"  class="btn btn-large btn-primary" />
                                             </div>
                                         </div>

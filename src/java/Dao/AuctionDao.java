@@ -29,12 +29,4 @@ public class AuctionDao {
         pstm.close();
         return true;
     }
-    
-    public static boolean updateAuction(String setColumnAuction, String WhereClauseAuction) throws SQLException {
-
-        con = db.myConn();
-        pstm = con.prepareStatement("Update supplier_pro_spce set " + setColumnAuction + " where " + WhereClauseAuction);
-        pstm.executeUpdate();
-        return true;
-    }
 }

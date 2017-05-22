@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuctionBean extends HttpServlet {
-    private int supplierId;
+    
     private int ppsId;
     private double unitPrice;
     private double price;
@@ -27,13 +27,14 @@ public class AuctionBean extends HttpServlet {
     private String WhereClausePurchaseProSpec;
     private boolean updatePurchaserProSpce;
     private boolean addAuction;
+    private int spsTsps_id;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            supplierId = Integer.parseInt(request.getParameter("sId"));
+            spsTsps_id = Integer.parseInt(request.getParameter("spsTspsId"));
             ppsId = Integer.parseInt(request.getParameter("ppsId"));
             unitPrice = Double.parseDouble(request.getParameter("uPrice"));
             price = Double.parseDouble(request.getParameter("price"));
@@ -43,7 +44,7 @@ public class AuctionBean extends HttpServlet {
             WhereClausePurchaseProSpec = " pps_id = " + ppsId;
             updatePurchaserProSpce = PurchaserProSpceDao.updatePurchaseProSpceWithWhereClasuse(setColumnPurchaseProSpec, WhereClausePurchaseProSpec);
             
-            addAuction = AuctionDao.addAuction(unitPrice, price, supplierId, ppsId);
+            addAuction = AuctionDao.addAuction(unitPrice, price, spsTsps_id, ppsId);
             if (addAuction) {
                 if (updatePurchaserProSpce) {
                     String auctionSuccess = "<p class='alert-info'>Project are going to Auction</p>";

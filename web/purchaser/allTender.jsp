@@ -92,13 +92,13 @@
                                         ResultSet rs;
                                         int user_Id = Integer.parseInt(session.getAttribute("idUser").toString());
                                         String neededColumnSpsPpsProjectUsersCompany = "*";
-                                        String WhereClauseSpsPpsProjectUsersCompany = " ppsTuser_id = '" + user_Id + "' and flag = 'Publish'";
+                                        String WhereClauseSpsPpsProjectUsersCompany = " ppsTuser_id = '" + user_Id + "' and flag = 'Publish' and supplier_spec != 'null'";
                                         rs = ppsd.allSpsPpsProjectUsersCompanyWithWhereClause(neededColumnSpsPpsProjectUsersCompany, WhereClauseSpsPpsProjectUsersCompany);
 
                                         rs.last();
                                         int dataRow = rs.getRow();
                                         String[] ppsTppsId = new String[dataRow];
-                                        String[] supplier_id = new String[dataRow];
+                                        String[] spsTsps_id = new String[dataRow];
                                         String[] projectName = new String[dataRow];
                                         String[] projectId = new String[dataRow];
                                         String[] flag = new String[dataRow];
@@ -107,7 +107,7 @@
                                         rs.beforeFirst();
                                         while (rs.next()) {
                                             ppsTppsId[i] = rs.getString("pps_id");
-                                            supplier_id[i] = rs.getString("spsTuser_id");
+                                            spsTsps_id[i] = rs.getString("spsTsps_id");
                                             projectName[i] = rs.getString("project_name");
                                             projectId[i] = rs.getString("project_id");
                                             flag[i] = rs.getString("flag");
@@ -118,7 +118,7 @@
                                         for (i = 0; i < dataRow; i++) {
                                     %>
 
-                                    <tr data-toggle="modal" data-ppsid="<%=ppsTppsId[i]%>" data-sid="<%=supplier_id[i]%>" data-pname="<%=projectName[i]%>" data-pid="<%=projectId[i]%>" data-flag="<%=flag[i]%>" class="open-auction" href="#specDetails" onclick="getProjectSpce(this)">
+                                    <tr data-toggle="modal" data-ppsid="<%=ppsTppsId[i]%>" data-spstspsid="<%=spsTsps_id[i]%>" data-pname="<%=projectName[i]%>" data-pid="<%=projectId[i]%>" data-flag="<%=flag[i]%>" class="open-auction" href="#specDetails" onclick="getProjectSpce(this)">
                                         <td><%=i + 1%></td><td><%=projectName[i]%></td><td><%=flag[i]%></td><td><%=startDate[i]%></td><td><%=endDate[i]%></td>
 
                                     </tr>
@@ -173,9 +173,9 @@
                                     <input type="date" id="AuctionEDate" name="AuctionEDate" class="form-control" value="" required/>
                                 </div>
                             </div>
-                            <input type="text" id="ppsId" name="ppsId" class="form-control" value="" />
-                            <input type="text" id="pId" name="pId" class="form-control" value="" />
-                            <input type="text" id="sId" name="sId" class="form-control" value="" />
+                            <input type="hidden" id="ppsId" name="ppsId" class="form-control" value="" />
+                            <input type="hidden" id="pId" name="pId" class="form-control" value="" />
+                            <input type="hidden" id="spsTspsId" name="spsTspsId" class="form-control" value="" />
                             <center>
                                 <input id="btn-confirm" type="submit" name="submit" value="Confirm" class="btn btn-success"/>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
@@ -202,9 +202,9 @@
                     <div class="modal-body">
                         <form action="" class="form-horizontal" method="post" accept-charset="utf-8">
 
-                            <input type="text" id="ppsId" name="ppsId" class="form-control" value="" />
-                            <input type="text" id="pId" name="pId" class="form-control" value="" />
-                            <input type="text" id="sId" name="sId" class="form-control" value="" />
+                            <input type="hidden" id="ppsId" name="ppsId" class="form-control" value="" />
+                            <input type="hidden" id="pId" name="pId" class="form-control" value="" />
+                            <input type="hidden" id="spsTspsId" name="spsTspsId" class="form-control" value="" />
                             <div class="form-group">
                                 <label for="pName" class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
@@ -254,12 +254,12 @@
                 var ppsId = $(this).data('ppsid');
                 var projectName = $(this).data('pname');
                 var projectId = $(this).data('pid');
-                var supplierId = $(this).data('sid');
+                var spsTsps_id = $(this).data('spstspsid');
                 var flag = $(this).data('flag');
                 $(".modal-body #ppsId").val(ppsId);
                 $(".modal-body #pName").val(projectName);
                 $(".modal-body #pId").val(projectId);
-                $(".modal-body #sId").val(supplierId);
+                $(".modal-body #spsTspsId").val(spsTsps_id);
                 $(".modal-body #flag").val(flag);
             });
 

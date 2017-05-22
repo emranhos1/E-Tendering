@@ -23,6 +23,7 @@
             if ((session.getAttribute("idUser") == null) || (session.getAttribute("idUser") == "")) {
                 response.sendRedirect("../login.jsp");
             } else {%>
+        <!--menu bar-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -71,69 +72,58 @@
             </div>
         </nav>
 
+        <!--jumbotron-->
         <div class="jumbotron">
             <div></div>
             <div class="container">
                 <div class="col-md-12">
                     <center>
-
-                        <p>${message}</p>
-                        <p>${auctionInfo}</p>
-                        <p>${deleteInfo}</p>
-
                         <div>
-                            <table class="table table-hover table-bordered text-center">
+                            <h2>All Bits Projects</h2>
+                            <p>${confirmSupplierInfo}</p>
+                            <table border="1" class="table table-hover text-center">
                                 <thead class="table table-responsive">
                                     <tr>
-                                        <td>SL</td><td>Project</td><td>Supplier Specification</td><td>Supplier Company Details</td><td></td>
+                                        <th>SL</th><th>Project Name</th><th>Flag</th><th>Start Date</th><th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <%
                                         int i = 0;
+
+                                        PurchaserProSpceDao ppsd = new PurchaserProSpceDao();
                                         ResultSet rs;
                                         int user_Id = Integer.parseInt(session.getAttribute("idUser").toString());
-                                        String neededColumnSupplier = "*";
-                                        String whereClauseSupplier = " ppsTuser_id = " + user_Id + " and flag = 'Publish' and supplier_spec != 'null'";
-                                        rs = SupplierProSpceDao.allDataForSpsPpsProjectUsersCompanyWithWhereClause(neededColumnSupplier, whereClauseSupplier);
+                                        String neededColumnSpsPpsProjectUsersCompany = "*";
+                                        String WhereClauseSpsPpsProjectUsersCompany = " ppsTuser_id = '" + user_Id + "' and flag = 'Auction' and supplier_spec != 'null'";
+                                        rs = ppsd.allSpsPpsProjectUsersCompanyWithWhereClause(neededColumnSpsPpsProjectUsersCompany, WhereClauseSpsPpsProjectUsersCompany);
 
                                         rs.last();
-                                        int companyRow = rs.getRow();
-                                        String[] projectName = new String[companyRow];
-                                        String[] supplierSpce = new String[companyRow];
-                                        String[] unitPrice = new String[companyRow];
-                                        String[] price = new String[companyRow];
-                                        String[] companyName = new String[companyRow];
-                                        String[] website = new String[companyRow];
-                                        String[] supplierId = new String[companyRow];
-                                        String[] ppsId = new String[companyRow];
+                                        int dataRow = rs.getRow();
+                                        String[] ppsTppsId = new String[dataRow];
+                                        String[] spsTsps_id = new String[dataRow];
+                                        String[] projectName = new String[dataRow];
+                                        String[] projectId = new String[dataRow];
+                                        String[] flag = new String[dataRow];
+                                        String[] startDate = new String[dataRow];
+                                        String[] endDate = new String[dataRow];
                                         rs.beforeFirst();
                                         while (rs.next()) {
+                                            ppsTppsId[i] = rs.getString("pps_id");
+                                            spsTsps_id[i] = rs.getString("spsTsps_id");
                                             projectName[i] = rs.getString("project_name");
-                                            supplierSpce[i] = rs.getString("supplier_spec");
-                                            unitPrice[i] = rs.getString("unit_price");
-                                            price[i] = rs.getString("price");
-                                            companyName[i] = rs.getString("company_name");
-                                            website[i] = rs.getString("website");
-                                            supplierId[i] = rs.getString("spsTuser_id");
-                                            ppsId[i] = rs.getString("pps_id");
+                                            projectId[i] = rs.getString("project_id");
+                                            flag[i] = rs.getString("flag");
+                                            startDate[i] = rs.getString("start_date");
+                                            endDate[i] = rs.getString("end_date");
                                             i++;
                                         }
-                                        for (i = 0; i < companyRow; i++) {
+                                        for (i = 0; i < dataRow; i++) {
                                     %>
-                                    <tr>
-                                        <td><%=i + 1%></td><td><%=projectName[i]%></td><td>Spce : <%=supplierSpce[i]%><br/>Unit Price : <%=unitPrice[i]%><br><%=price[i]%></td><td>Company : <%=companyName[i]%><br/><%=website[i]%></td>
-                                        <td>
-                                            <button class="btn btn-success">
-                                                <a data-toggle="modal" data-pname="<%=projectName[i]%>" data-cname="<%=companyName[i]%>" data-sid="<%=supplierId[i]%>" data-ppsid="<%=ppsId[i]%>" data-uprice="<%=unitPrice[i]%>" data-price="<%=price[i]%>" class="open-auction" href="#auction" >Auction</a>
-                                            </button>
-                                            <br/>
-                                            OR
-                                            <br/>
-                                            <button class="btn btn-danger">
-                                                <a data-toggle="modal" data-ppsid="<%=ppsId[i]%>" class="delete-pruchaserProSpce" href="#deletePPS">Close Project</a>
-                                            </button>
-                                        </td>
+
+                                    <tr data-toggle="modal" data-ppsid="<%=ppsTppsId[i]%>" class="open-auction" href="#specDetails" onclick="getAuctionSpce(this)">
+                                        <td><%=i + 1%></td><td><%=projectName[i]%></td><td><%=flag[i]%></td><td><%=startDate[i]%></td><td><%=endDate[i]%></td>
+
                                     </tr>
                                     <%}%>
                                 </tbody>
@@ -144,45 +134,33 @@
             </div>
         </div>
 
-        <!--delete Project-->
-        <div class="modal fade" id="deletePPS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!--specDetails dialog box-->
+        <div class="modal fade" id="specDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <center><h4 class="modal-title" id="myModalLabel">Auction This Project ?</h4></center>
+                        <center><h4 class="modal-title" id="myModalLabel">All Supplier Specification</h4></center>
                     </div>
-                    <div class="modal-body">
-                        <form action="../DeletePurchaserProSpce" class="form-horizontal" method="post" accept-charset="utf-8">
-                            <p>Are You Sure To Delete Project</p>
-                            <input type="hidden" id="ppsId" name="ppsId" class="form-control" value="" />
-
-                            <center>
-                                <input type="submit" name="submit" value="Delete Project" class="btn btn-success"/>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">Cancel</span>
-                                </button>
-                            </center>
-                        </form>
-                    </div>
+                    <div id="all-info-box"></div>
                 </div>
             </div>
         </div>
 
-        <!--Going project to Auction-->
-        <div class="modal fade" id="auction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!--Confirm Supplier-->
+        <div class="modal fade" id="confirmSupplier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <center><h4 class="modal-title" id="myModalLabel">Auction This Project ?</h4></center>
+                        <center><h4 class="modal-title" id="myModalLabel">Confirm This Supplier?</h4></center>
                     </div>
                     <div class="modal-body">
-                        <form action="../AuctionBean" class="form-horizontal" method="post" accept-charset="utf-8">
+                        <form action="../ConfirmSupplier" class="form-horizontal" method="post" accept-charset="utf-8">
                             <div class="form-group">
                                 <label for="pName" class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
@@ -200,43 +178,25 @@
                             <input type="hidden" id="ppsId" name="ppsId" class="form-control" value="" />
 
                             <div class="form-group">
-                                <label for="uPrice" class="col-sm-4 control-label">Unit Price</label>
+                                <label for="uPrice" class="col-sm-4 control-label">Supplier Unit Price</label>
                                 <div class="col-sm-8">
                                     <input  type="text" id="uPrice" name="uPrice" class="form-control" value="" readonly/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="price" class="col-sm-4 control-label">Price</label>
+                                <label for="price" class="col-sm-4 control-label">Supplier Price</label>
                                 <div class="col-sm-8">
                                     <input  type="text" id="price" name="price" class="form-control" value="" readonly/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="AuctionSDate" class="col-sm-4 control-label">Auction Start Date</label>
+                                <label for="massege" class="col-sm-4 control-label">Contact Info</label>
                                 <div class="col-sm-8">
-                                    <input  type="date" id="AuctionSDate" name="AuctionSDate" class="form-control" required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="AuctionEDate" class="col-sm-4 control-label">Auction End Date</label>
-                                <div class="col-sm-8">
-                                    <input  type="date" id="AuctionEDate" name="AuctionEDate" class="form-control" required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="pUPrice" class="col-sm-4 control-label">Give Your's Unit Price</label>
-                                <div class="col-sm-8">
-                                    <input  type="number" id="pUPrice" name="pUPrice" class="form-control" value=""/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="pPrice" class="col-sm-4 control-label">Give Your's Price</label>
-                                <div class="col-sm-8">
-                                    <input  type="number" id="pPrice" name="pPrice" class="form-control" value=""/>
+                                    <textarea id="massege" name="massege" class="form-control" placeholder="exp: Email or Phone No or Any other contuct info" maxlength="255" required></textarea>
                                 </div>
                             </div>
                             <center>
-                                <input type="submit" name="submit" value="Confirm" class="btn btn-success"/>
+                                <input type="submit" name="submit" value="Confirm Supplier" class="btn btn-success"/>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">Cancel</span>
                                 </button>
@@ -246,26 +206,6 @@
                 </div>
             </div>
         </div>
-
-        <!--        confirm box
-                <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
-                            </div>
-                            <div class="alert">
-                                <form method="post" action="">
-                                    <p>If You Confirm This Supplier You Can't Hire Another Supplier</p>
-                                    <input type="submit" class="btn btn-primary" name="submitSpce" value="Confirm" /><button class="close btn-danger" data-dismiss="modal" aria-label="Close" >Cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
 
         <!--Footer Content--> 
         <div class="container">
@@ -292,36 +232,38 @@
         </div>
         <%}%>
         <script>
-            $(document).on("click", ".open-auction", function () {
-
-                var supplierId = $(this).data('sid');
-                var ppsId = $(this).data('ppsid');
-                var unitPrice = $(this).data('uprice');
-                var price = $(this).data('price');
+            $(document).on("click", ".open-confirmSupplier", function () {
                 var projectName = $(this).data('pname');
                 var companyName = $(this).data('cname');
-                console.log(supplierId);
-                console.log(ppsId);
-                console.log(unitPrice);
-                console.log(price);
-                console.log(projectName);
-                console.log(companyName);
-
-                $(".modal-body #sId").val(supplierId);
-                $(".modal-body #ppsId").val(ppsId);
-                $(".modal-body #uPrice").val(unitPrice);
-                $(".modal-body #price").val(price);
+                var unitPrice = $(this).data('uprice');
+                var price = $(this).data('price');
+                var ppsId = $(this).data('ppsid');
+                var sId = $(this).data('sid');
                 $(".modal-body #pName").val(projectName);
                 $(".modal-body #cName").val(companyName);
-            });
-            
-            $(document).on("click", ".delete-pruchaserProSpce", function () {
-
-                var ppsId = $(this).data('ppsid');
-                
+                $(".modal-body #uPrice").val(unitPrice);
+                $(".modal-body #price").val(price);
                 $(".modal-body #ppsId").val(ppsId);
-                console.log(ppsId);
+                $(".modal-body #sId").val(sId);
             });
+            function getAuctionSpce(el) {
+
+                var ppsId = $(el).data('ppsid');
+                $.ajax({
+                    type: "POST",
+                    url: "../FindAuctionSpceBean",
+                    data: 'ppsId=' + ppsId,
+                    success: function (data) {
+                        $("#all-info-box").show();
+                        $("#all-info-box").html(data);
+                        console.log(data)
+                    }
+                });
+            }
+
+            function auctionDialogHide() {
+                $(".close").click();
+            }
         </script>
         <script src="../js/bootstrap.min.js" type="text/javascript"></script>
     </body>

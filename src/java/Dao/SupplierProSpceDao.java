@@ -2,7 +2,6 @@
  *
  * @author Md. Emran Hossain
  */
-
 package Dao;
 
 import dbConnection.DBConnection;
@@ -12,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SupplierProSpceDao {
-    
+
     private static final DBConnection db = new DBConnection();
     private static Connection con;
     private static PreparedStatement pstm;
@@ -32,21 +31,29 @@ public class SupplierProSpceDao {
 
         return true;
     }
-    
-    public static ResultSet allDataForSupplierProSpceWithWhereClause(String neededColumnSupplier, String whereClauseSupplier) throws SQLException{
+
+    public static boolean updateSupplierProSpceWithWhereClause(String setColumnSupplierProSpce, String WhereClauseSupplierProSpce) throws SQLException {
+
         con = db.myConn();
-        pstm = con.prepareStatement("SELECT "+neededColumnSupplier+" FROM supplier_pro_spce where"+whereClauseSupplier);
-        rs = pstm.executeQuery();
-    return rs;
+        pstm = con.prepareStatement("Update supplier_pro_spce set " + setColumnSupplierProSpce + " where " + WhereClauseSupplierProSpce);
+        pstm.executeUpdate();
+        return true;
     }
-    
-    public static ResultSet allDataForSupplierProSpceWithOutWhereClause(String neededColumnSupplier) throws SQLException{
+
+    public static ResultSet allDataForSupplierProSpceWithWhereClause(String neededColumnSupplier, String whereClauseSupplier) throws SQLException {
         con = db.myConn();
-        pstm = con.prepareStatement("SELECT "+neededColumnSupplier+" FROM supplier_pro_spce");
+        pstm = con.prepareStatement("SELECT " + neededColumnSupplier + " FROM supplier_pro_spce where" + whereClauseSupplier);
         rs = pstm.executeQuery();
-    return rs;
+        return rs;
     }
-    
+
+    public static ResultSet allDataForSupplierProSpceWithOutWhereClause(String neededColumnSupplier) throws SQLException {
+        con = db.myConn();
+        pstm = con.prepareStatement("SELECT " + neededColumnSupplier + " FROM supplier_pro_spce");
+        rs = pstm.executeQuery();
+        return rs;
+    }
+
     public static boolean deleteSupplierProSpceWithWhereClause(String whereClauseSupplierProSpec) throws SQLException {
 
         con = db.myConn();
@@ -54,18 +61,25 @@ public class SupplierProSpceDao {
         pstm.executeUpdate();
         return true;
     }
-    
-    public static ResultSet allDataForSpsPpsProjectUsersCompanyWithWhereClause(String neededColumnSupplier, String whereClauseSupplier) throws SQLException{
+
+    public static ResultSet allDataForSpsPpsProjectUsersCompanyWithWhereClause(String neededColumnSupplier, String whereClauseSupplier) throws SQLException {
         con = db.myConn();
-        pstm = con.prepareStatement("SELECT "+neededColumnSupplier+" FROM sps_pps_project_users_company where"+whereClauseSupplier);
+        pstm = con.prepareStatement("SELECT " + neededColumnSupplier + " FROM sps_pps_project_users_company where" + whereClauseSupplier);
         rs = pstm.executeQuery();
-    return rs;
+        return rs;
     }
-    
-    public static ResultSet allDataForAllDataSupplierProSpceWithWhereClause(String neededColumnAllDataSupplierProSpce, String whereClauseAllDataSupplierProSpce) throws SQLException{
+
+    public static ResultSet allDataForSpsPpsProjectUsersCompanyAuctionWithWhereClause(String neededColumnSpsPpsProjectUsersCompanyAuction, String whereClauseSpsPpsProjectUsersCompanyAuction) throws SQLException {
         con = db.myConn();
-        pstm = con.prepareStatement("SELECT "+neededColumnAllDataSupplierProSpce+" FROM all_data_supplier_pro_spce where"+whereClauseAllDataSupplierProSpce);
+        pstm = con.prepareStatement("SELECT " + neededColumnSpsPpsProjectUsersCompanyAuction + " FROM sps_pps_p_u_c_auction where" + whereClauseSpsPpsProjectUsersCompanyAuction);
         rs = pstm.executeQuery();
-    return rs;
+        return rs;
+    }
+
+    public static ResultSet allDataForAllDataSupplierProSpceWithWhereClause(String neededColumnAllDataSupplierProSpce, String whereClauseAllDataSupplierProSpce) throws SQLException {
+        con = db.myConn();
+        pstm = con.prepareStatement("SELECT " + neededColumnAllDataSupplierProSpce + " FROM all_data_sps_auction where" + whereClauseAllDataSupplierProSpce);
+        rs = pstm.executeQuery();
+        return rs;
     }
 }

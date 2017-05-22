@@ -64,6 +64,14 @@
         <servlet-name>FindSupplierSpceBean</servlet-name>
         <servlet-class>userBean.FindSupplierSpceBean</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FindAuctionSpceBean</servlet-name>
+        <servlet-class>userBean.FindAuctionSpceBean</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfirmSupplier</servlet-name>
+        <servlet-class>userBean.ConfirmSupplier</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationBean</servlet-name>
         <url-pattern>/RegistrationBean</url-pattern>
@@ -127,6 +135,14 @@
     <servlet-mapping>
         <servlet-name>FindSupplierSpceBean</servlet-name>
         <url-pattern>/FindSupplierSpceBean</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FindAuctionSpceBean</servlet-name>
+        <url-pattern>/FindAuctionSpceBean</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmSupplier</servlet-name>
+        <url-pattern>/ConfirmSupplier</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
