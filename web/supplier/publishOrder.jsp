@@ -53,6 +53,8 @@
                                 <li><a href="#">Publish Order</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="auctionOrder.jsp">Auction Order</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="orders.jsp">Orders</a></li>
                             </ul>
                         </li>
                         <li>

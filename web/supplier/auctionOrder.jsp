@@ -53,6 +53,8 @@
                                 <li><a href="publishOrder.jsp">Publish Order</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">Auction Order</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="orders.jsp">Orders</a></li>
                             </ul>
                         </li>
                         <li>
@@ -76,7 +78,7 @@
                             <table class="table table-hover table-bordered text-center">
                                 <thead class="table table-responsive">
                                     <tr>
-                                        <th>Company</th><th>projects</th><th>Groups</th><th>Flag</th><th>Auction Start Date</th><th>Auction End Date</th><th>New Specification</th>
+                                        <th>Company</th><th>projects</th><th>Groups</th><th>Owner Price</th><th>Flag</th><th>Auction Start Date</th><th>Auction End Date</th><th>New Specification</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,8 +101,10 @@
                                         String[] flag = new String[supplierProRow];
                                         String[] aSDate = new String[supplierProRow];
                                         String[] aEDate = new String[supplierProRow];
+                                        String[] aUPrice = new String[supplierProRow];
+                                        String[] aPrice = new String[supplierProRow];
                                         resultset.beforeFirst();
-
+                                        
                                         while (resultset.next()) {
                                             ppsId[j] = resultset.getString("pps_id");
                                             beforeUnitPrice[j] = resultset.getString("unit_price");
@@ -111,6 +115,8 @@
                                             flag[j] = resultset.getString("flag");
                                             aSDate[j] = resultset.getString("auction_s_date");
                                             aEDate[j] = resultset.getString("auction_e_date");
+                                            aUPrice[j] = resultset.getString("auc_unit_price");
+                                            aPrice[j] = resultset.getString("auc_price");
                                             j++;
                                         }
                                         for (j = 0; j < supplierProRow; j++) {
@@ -119,6 +125,10 @@
                                         <td><%=cName[j]%></td>
                                         <td><%=pName[j]%></td>
                                         <td><%=gName[j]%></td>
+                                        <td>
+                                            Required Unit Price : <%=aUPrice[j]%><br/>
+                                            Required Price : <%=aPrice[j]%>
+                                        </td>
                                         <td><%=flag[j]%></td>
                                         <td><%=aSDate[j]%></td>
                                         <td><%=aEDate[j]%></td>
