@@ -53,7 +53,7 @@ public class AuctionBean extends HttpServlet {
                 } else {
                     String auctionError = "<p class='alert-danger'>Project are not going to Auction</p>";
                     request.getSession().setAttribute("auctionInfo", auctionError);
-                    response.sendRedirect("purchaser/allTender.jsp.jsp");
+                    response.sendRedirect("purchaser/allTender.jsp");
                 }
             } else {
                 String auctionError = "<p class='alert-danger'>Project are not going to Auction</p>";
